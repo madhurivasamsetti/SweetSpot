@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ingredients_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/ingredients_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingredients"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/ingredients_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/down_arrow" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/detailIngredient_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="visible"
+        tools:text="Ingredients" />
+
+    <LinearLayout
+        android:id="@+id/steps_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/steps_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Steps"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <ImageView
+            android:id="@+id/steps_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/up_arrow" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/detailSteps_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        tools:text="Steps" />
+</LinearLayout>

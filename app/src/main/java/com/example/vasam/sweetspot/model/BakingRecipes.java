@@ -3,7 +3,7 @@ package com.example.vasam.sweetspot.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by vasam on 7/25/2017.
@@ -12,13 +12,13 @@ import java.util.List;
 public class BakingRecipes implements Parcelable {
     private int mRecipeId;
     private String mRecipeName;
-    private List<RecipeIngredients> mIngredients;
-    private List<RecipeSteps> mSteps;
+    private ArrayList<RecipeIngredients> mIngredients;
+    private ArrayList<RecipeSteps> mSteps;
     private int mServings;
     private String mRecipeImage;
 
-    public BakingRecipes(int mRecipeId, String mRecipeName, List<RecipeIngredients> mIngredients,
-                         List<RecipeSteps> mSteps, int mServings, String mRecipeImage) {
+    public BakingRecipes(int mRecipeId, String mRecipeName, ArrayList<RecipeIngredients> mIngredients,
+                         ArrayList<RecipeSteps> mSteps, int mServings, String mRecipeImage) {
         this.mRecipeId = mRecipeId;
         this.mRecipeName = mRecipeName;
         this.mIngredients = mIngredients;
@@ -27,7 +27,7 @@ public class BakingRecipes implements Parcelable {
         this.mRecipeImage = mRecipeImage;
     }
 
-    protected BakingRecipes(Parcel in) {
+    public BakingRecipes(Parcel in) {
         mRecipeId = in.readInt();
         mRecipeName = in.readString();
         mServings = in.readInt();
@@ -62,19 +62,19 @@ public class BakingRecipes implements Parcelable {
         this.mRecipeName = mRecipeName;
     }
 
-    public List<RecipeIngredients> getmIngredients() {
+    public ArrayList<RecipeIngredients> getmIngredients() {
         return mIngredients;
     }
 
-    public void setmIngredients(List<RecipeIngredients> mIngredients) {
+    public void setmIngredients(ArrayList<RecipeIngredients> mIngredients) {
         this.mIngredients = mIngredients;
     }
 
-    public List<RecipeSteps> getmSteps() {
+    public ArrayList<RecipeSteps> getmSteps() {
         return mSteps;
     }
 
-    public void setmSteps(List<RecipeSteps> mSteps) {
+    public void setmSteps(ArrayList<RecipeSteps> mSteps) {
         this.mSteps = mSteps;
     }
 

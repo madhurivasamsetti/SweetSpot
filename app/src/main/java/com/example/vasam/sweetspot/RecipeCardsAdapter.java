@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.example.vasam.sweetspot.model.BakingRecipes;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by vasam on 7/25/2017.
@@ -17,14 +17,14 @@ import java.util.List;
 
 public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.RecipeCardHolder> {
     private Context mContext;
-    private List<BakingRecipes> mDataSource;
+    private ArrayList<BakingRecipes> mDataSource;
     private final RecipeCardClickListener mClickListener;
 
     public interface RecipeCardClickListener {
         void onItemClick(BakingRecipes recipe);
     }
 
-    public RecipeCardsAdapter(Context mContext, List<BakingRecipes> dataSource,RecipeCardClickListener clickListener) {
+    public RecipeCardsAdapter(Context mContext, ArrayList<BakingRecipes> dataSource,RecipeCardClickListener clickListener) {
         this.mContext = mContext;
         mDataSource = dataSource;
         mClickListener = clickListener;

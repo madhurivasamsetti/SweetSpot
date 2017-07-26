@@ -1,5 +1,6 @@
 package com.example.vasam.sweetspot;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,10 +9,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.vasam.sweetspot.model.BakingRecipes;
+import com.example.vasam.sweetspot.model.RecipeIngredients;
+import com.example.vasam.sweetspot.model.RecipeSteps;
 import com.example.vasam.sweetspot.utils.JsonUtils;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RecipeCardsAdapter.RecipeCardClickListener {
     private RecyclerView mRecyclerView;
@@ -27,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardsAdapte
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        List<BakingRecipes> recipes = null;
+        ArrayList<BakingRecipes> recipes = null;
         try {
             recipes = JsonUtils.readJsonStream(this);
             Log.d("MainActivity.class", "values int recipe list are" + recipes);
@@ -45,5 +48,13 @@ public class MainActivity extends AppCompatActivity implements RecipeCardsAdapte
     @Override
     public void onItemClick(BakingRecipes recipe) {
         Toast.makeText(this, "item got clicked" + recipe.getmRecipeId(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(MainActivity.this,RecipeDetailActivity.class);
+        ArrayList<RecipeSteps> steps = recipe.getmSteps();
+        ArrayList<RecipeIngredients> ingredients = recipe.getmIngredients();
+        intent.putParcelableArrayListExtra("recipeSteps",steps);
+        intent.putParcelableArrayListExtra("ingredients",ingredients);
+        intent.putExtra("recipeName",recipe.getmRecipeName());
+
+        startActivity(intent);
     }
 }

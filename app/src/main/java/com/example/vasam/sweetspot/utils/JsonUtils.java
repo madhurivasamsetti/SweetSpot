@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -34,12 +33,12 @@ public class JsonUtils {
     /**
      * This method is used for parsing the Json file.
      * @param context application context
-     * @return List<BakingRecipes> list of recipes
+     * @return ArrayList<BakingRecipes> list of recipes
      * @throws IOException
      */
-    public static List<BakingRecipes> readJsonStream(Context context) throws IOException {
+    public static ArrayList<BakingRecipes> readJsonStream(Context context) throws IOException {
 
-        List<BakingRecipes> recipes = new ArrayList<>();
+        ArrayList<BakingRecipes> recipes = new ArrayList<>();
         JsonReader jsonReader = getJsonReader(context);
         try {
             jsonReader.beginArray();
@@ -97,8 +96,8 @@ public class JsonUtils {
     private static BakingRecipes readStream(JsonReader jsonReader) throws IOException {
         int id = -1;
         String title = null;
-        List<RecipeIngredients> ingredients = null;
-        List<RecipeSteps> steps = null;
+        ArrayList<RecipeIngredients> ingredients = null;
+        ArrayList<RecipeSteps> steps = null;
         int servings = -1;
         String image = null;
 
@@ -136,12 +135,12 @@ public class JsonUtils {
     /**
      * returns list of all the steps required for single baking recipe.
      * @param jsonReader JsonReader object pointing to the JSON array of steps.
-     * @return List<RecipeSteps> returns list of RecipeSteps objects
+     * @return ArrayList<RecipeSteps> returns list of RecipeSteps objects
      * @throws IOException
      */
-    private static List<RecipeSteps> readSteps(JsonReader jsonReader) throws IOException {
+    private static ArrayList<RecipeSteps> readSteps(JsonReader jsonReader) throws IOException {
 
-        List<RecipeSteps> steps = new ArrayList<>();
+        ArrayList<RecipeSteps> steps = new ArrayList<>();
         int id = -1;
         String shortDescription = null;
         String description = null;
@@ -176,9 +175,10 @@ public class JsonUtils {
                 } else {
                     jsonReader.skipValue();
                 }
-                steps.add(new RecipeSteps(id, shortDescription, description, videoURL, thumbnailURL));
             }
             jsonReader.endObject();
+            steps.add(new RecipeSteps(id, shortDescription, description, videoURL, thumbnailURL));
+
         }
         jsonReader.endArray();
         return steps;
@@ -187,15 +187,14 @@ public class JsonUtils {
     /**
      * returns list of all ingredients required for single baking recipe
      * @param jsonReader JsonReader object pointing to the JSON array of ingredients.
-     * @return List<RecipeIngredients> returns list of RecipeIngredients objects.
+     * @return ArrayList<RecipeIngredients> returns list of RecipeIngredients objects.
      * @throws IOException
      */
-    private static List<RecipeIngredients> readIngredients(JsonReader jsonReader) throws IOException {
-        List<RecipeIngredients> ingredients = new ArrayList<>();
+    private static ArrayList<RecipeIngredients> readIngredients(JsonReader jsonReader) throws IOException {
+        ArrayList<RecipeIngredients> ingredients = new ArrayList<>();
         double quantity = -1;
         String measure = null;
         String ingredient = null;
-
         jsonReader.beginArray();
         while (jsonReader.hasNext()) {
             jsonReader.beginObject();
@@ -211,9 +210,10 @@ public class JsonUtils {
                 } else {
                     jsonReader.skipValue();
                 }
-                ingredients.add(new RecipeIngredients(quantity, measure, ingredient));
             }
             jsonReader.endObject();
+            ingredients.add(new RecipeIngredients(quantity, measure, ingredient));
+
         }
         jsonReader.endArray();
         return ingredients;
