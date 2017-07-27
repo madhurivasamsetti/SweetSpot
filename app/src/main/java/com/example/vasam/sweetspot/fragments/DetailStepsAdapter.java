@@ -12,6 +12,9 @@ import com.example.vasam.sweetspot.model.RecipeSteps;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by vasam on 7/25/2017.
  */
@@ -27,8 +30,8 @@ public class DetailStepsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if(mDataSource == null)
-        return 0;
+        if (mDataSource == null)
+            return 0;
         else return mDataSource.size();
     }
 
@@ -44,13 +47,24 @@ public class DetailStepsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView mDescriptionTextView;
-        if(convertView == null)
-        {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.step_list_item_view,parent,false);
+        ViewHolder holder;
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        } else {
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.step_list_item_view, parent, false);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         }
-        mDescriptionTextView = (TextView) convertView.findViewById(R.id.step_list_text_view);
-        mDescriptionTextView.setText(mDataSource.get(position).getmShortDescription());
+        holder.mDescriptionTextView.setText(mDataSource.get(position).getmShortDescription());
         return convertView;
+    }
+
+    static class ViewHolder {
+        @BindView(R.id.step_list_text_view)
+        TextView mDescriptionTextView;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

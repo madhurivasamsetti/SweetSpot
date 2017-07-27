@@ -119,9 +119,6 @@ public class JsonUtils {
                 servings = jsonReader.nextInt();
 
             } else if (name.equals("image")) {
-//                if (jsonReader.peek() == JsonToken.NULL) {
-//                    image = "empty";
-//                } else
                     image = jsonReader.nextString();
 
             } else {
@@ -161,15 +158,9 @@ public class JsonUtils {
                     description = jsonReader.nextString();
 
                 } else if (name.equals("videoURL")) {
-//                    if (jsonReader.peek() == JsonToken.NULL) {
-//                        videoURL = "empty";
-//                    } else
                         videoURL = jsonReader.nextString();
 
                 } else if (name.equals("thumbnailURL")) {
-//                    if (jsonReader.peek() == JsonToken.NULL) {
-//                        thumbnailURL = "empty";
-//                    } else
                         thumbnailURL = jsonReader.nextString();
 
                 } else {

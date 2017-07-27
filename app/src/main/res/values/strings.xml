@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Sweet Spot</string>
+    <string name="steps_key" translatable="false">stepsList</string>
+    <string name="ingredients_key" translatable="false">ingredientsList</string>
+    <string name="recipeName_key" translatable="false">recipeName</string>
+    <string name="ingredientsList_title">Ingredients</string>
+    <string name="stepsList_title">Steps</string>
 </resources>

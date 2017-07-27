@@ -11,6 +11,9 @@ import com.example.vasam.sweetspot.model.BakingRecipes;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by vasam on 7/25/2017.
  */
@@ -24,7 +27,7 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
         void onItemClick(BakingRecipes recipe);
     }
 
-    public RecipeCardsAdapter(Context mContext, ArrayList<BakingRecipes> dataSource,RecipeCardClickListener clickListener) {
+    public RecipeCardsAdapter(Context mContext, ArrayList<BakingRecipes> dataSource, RecipeCardClickListener clickListener) {
         this.mContext = mContext;
         mDataSource = dataSource;
         mClickListener = clickListener;
@@ -69,14 +72,14 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
     }
 
 
-    public class RecipeCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView mRecipeImage;
+    class RecipeCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        @BindView(R.id.recipe_image)
+        ImageView mRecipeImage;
 
-        public RecipeCardHolder(View itemView) {
+        private RecipeCardHolder(View itemView) {
             super(itemView);
-            mRecipeImage = (ImageView) itemView.findViewById(R.id.recipe_image);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
-
         }
 
         @Override

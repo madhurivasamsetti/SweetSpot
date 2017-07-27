@@ -17,7 +17,7 @@
             android:id="@+id/ingredients_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingredients"
+            android:text="@string/ingredientsList_title"
             android:textAppearance="?android:textAppearanceLarge" />
 
         <ImageView
@@ -46,7 +46,7 @@
             android:id="@+id/steps_TextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Steps"
+            android:text="@string/stepsList_title"
             android:textAppearance="?android:textAppearanceLarge" />
 
         <ImageView

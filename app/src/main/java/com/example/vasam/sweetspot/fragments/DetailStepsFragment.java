@@ -13,11 +13,15 @@ import com.example.vasam.sweetspot.model.RecipeSteps;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by vasam on 7/25/2017.
  */
 
 public class DetailStepsFragment extends Fragment {
+    @BindView(R.id.steps_list_view)ListView listView;
     public DetailStepsFragment() {
     }
 
@@ -26,14 +30,18 @@ public class DetailStepsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
          View rootView = inflater.inflate(R.layout.fragment_detail_steps,container,false);
-        ListView listView = (ListView) rootView.findViewById(R.id.steps_list_view);
-        ArrayList<RecipeSteps> stepsList = getArguments().getParcelableArrayList("stepsList");
-//        for(RecipeSteps recipeSteps : stepsList)
-//        {
-//            Log.d("DetailStepsFragment","desc: "+recipeSteps.getmDescription());
-//        }
+        ButterKnife.bind(this,rootView);
+
+        ArrayList<RecipeSteps> stepsList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
+
         DetailStepsAdapter detailStepsAdapter = new DetailStepsAdapter(getActivity().getApplicationContext(),stepsList);
         listView.setAdapter(detailStepsAdapter);
+
         return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
