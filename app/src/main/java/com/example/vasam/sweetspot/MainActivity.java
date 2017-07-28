@@ -3,13 +3,14 @@ package com.example.vasam.sweetspot;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.example.vasam.sweetspot.model.BakingRecipes;
 import com.example.vasam.sweetspot.model.RecipeIngredients;
 import com.example.vasam.sweetspot.model.RecipeSteps;
+import com.example.vasam.sweetspot.utils.ApplicationUtils;
 import com.example.vasam.sweetspot.utils.JsonUtils;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardsAdapte
 
         ButterKnife.bind(this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, ApplicationUtils.calculateNoOfColumns(this));
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 

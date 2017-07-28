@@ -21,7 +21,9 @@ import butterknife.ButterKnife;
  */
 
 public class DetailIngredientsFragment extends Fragment {
-    @BindView(R.id.ingredients_list_view)ListView listView;
+    @BindView(R.id.ingredients_list_view)
+    ListView listView;
+    ArrayList<RecipeIngredients> ingredientsList;
 
     public DetailIngredientsFragment() {
     }
@@ -30,20 +32,25 @@ public class DetailIngredientsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        ArrayList<RecipeIngredients> ingredientsList = getArguments().
-                getParcelableArrayList(getString(R.string.ingredients_key));
-        View rootView = inflater.inflate(R.layout.fragment_detail_ingredients,container,false);
+        if (savedInstanceState != null) {
+            ingredientsList = savedInstanceState.getParcelableArrayList(getString(R.string.ingredients_key));
+        } else {
+            ingredientsList = getArguments().
+                    getParcelableArrayList(getString(R.string.ingredients_key));
+        }
 
-        ButterKnife.bind(this,rootView);
+        View rootView = inflater.inflate(R.layout.fragment_detail_ingredients, container, false);
+
+        ButterKnife.bind(this, rootView);
 
         DetailIngredientsAdapter mAdapter = new DetailIngredientsAdapter(
-                getActivity().getApplicationContext(),ingredientsList);
+                getActivity().getApplicationContext(), ingredientsList);
         listView.setAdapter(mAdapter);
         return rootView;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onSaveInstanceState(Bundle currentState) {
+        currentState.putParcelableArrayList(getString(R.string.ingredients_key), ingredientsList);
     }
 }

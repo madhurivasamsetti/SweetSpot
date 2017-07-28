@@ -3,6 +3,10 @@
     <string name="steps_key" translatable="false">stepsList</string>
     <string name="ingredients_key" translatable="false">ingredientsList</string>
     <string name="recipeName_key" translatable="false">recipeName</string>
+    <string name="step_position_key" translatable="false">position</string>
     <string name="ingredientsList_title">Ingredients</string>
     <string name="stepsList_title">Steps</string>
+    <string name="image_contentDescription">RecipeImage</string>
+    <string name="previous_buttonDescription">PreviousStep</string>
+    <string name="next_buttonDescription">NextStep</string>
 </resources>

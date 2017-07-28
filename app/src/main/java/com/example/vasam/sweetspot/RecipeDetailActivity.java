@@ -1,5 +1,6 @@
 package com.example.vasam.sweetspot;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.vasam.sweetspot.fragments.DetailFlowFragment;
 import com.example.vasam.sweetspot.fragments.DetailIngredientsFragment;
 import com.example.vasam.sweetspot.fragments.DetailStepsFragment;
 import com.example.vasam.sweetspot.model.RecipeIngredients;
@@ -23,7 +25,7 @@ import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeDetailActivity extends AppCompatActivity {
+public class RecipeDetailActivity extends AppCompatActivity implements DetailStepsFragment.OnStepClickListener {
 
     @BindView(R.id.steps_image_view)
     ImageView stepsList_icon;
@@ -42,29 +44,95 @@ public class RecipeDetailActivity extends AppCompatActivity {
     @BindDrawable(R.drawable.down_arrow)
     Drawable down_arrow;
 
+
+    ArrayList<RecipeSteps> stepsList;
+    String recipeName;
     /**
      * below two booleans are used to toggle between arrow images present near the titles
      */
     static boolean stepsClicked = false;
     static boolean ingredientsClicked = true;
 
+    // Track whether to display a two-pane or single-pane UI
+    private boolean mTwoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
-
-        ArrayList<RecipeSteps> stepsList = getIntent().getParcelableArrayListExtra(getString(R.string.steps_key));
+        stepsList = getIntent().getParcelableArrayListExtra(getString(R.string.steps_key));
         ArrayList<RecipeIngredients> ingredientsList = getIntent().getParcelableArrayListExtra(getString(R.string.ingredients_key));
-        String recipeName = getIntent().getStringExtra(getString(R.string.recipeName_key));
+        recipeName = getIntent().getStringExtra(getString(R.string.recipeName_key));
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle(recipeName);
         }
-
         ButterKnife.bind(this);
 
+        if (findViewById(R.id.detail_flow_linear_layout) != null) {
+            mTwoPane = true;
+
+            if (savedInstanceState == null) {
+                //using bundle to communicate between fragments.
+                Bundle stepsBundle = new Bundle();
+                stepsBundle.putParcelableArrayList(getString(R.string.steps_key), stepsList);
+
+                Bundle ingredientsBundle = new Bundle();
+                ingredientsBundle.putParcelableArrayList(getString(R.string.ingredients_key), ingredientsList);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                DetailIngredientsFragment detailIngredientsFragment = new DetailIngredientsFragment();
+                DetailStepsFragment detailStepsFragment = new DetailStepsFragment();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.detailIngredient_fragment, detailIngredientsFragment)
+                        .commit();
+                detailIngredientsFragment.setArguments(ingredientsBundle);
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.detailSteps_fragment, detailStepsFragment)
+                        .commit();
+                detailStepsFragment.setArguments(stepsBundle);
+
+                Bundle content = new Bundle();
+                content.putParcelableArrayList(getString(R.string.steps_key), stepsList);
+                content.putInt(getString(R.string.step_position_key), 0);
+
+                DetailFlowFragment detailFlowFragment = new DetailFlowFragment();
+                detailFlowFragment.setArguments(content);
+                fragmentManager.beginTransaction().add(R.id.detail_flow_fragment, detailFlowFragment).commit();
+            }
+        } else {
+            mTwoPane = false;
+            if (savedInstanceState == null) {
+                //using bundle to communicate between fragments.
+                Bundle stepsBundle = new Bundle();
+                stepsBundle.putParcelableArrayList(getString(R.string.steps_key), stepsList);
+
+                Bundle ingredientsBundle = new Bundle();
+                ingredientsBundle.putParcelableArrayList(getString(R.string.ingredients_key), ingredientsList);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                DetailIngredientsFragment detailIngredientsFragment = new DetailIngredientsFragment();
+                DetailStepsFragment detailStepsFragment = new DetailStepsFragment();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.detailIngredient_fragment, detailIngredientsFragment)
+                        .commit();
+                detailIngredientsFragment.setArguments(ingredientsBundle);
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.detailSteps_fragment, detailStepsFragment)
+                        .commit();
+                detailStepsFragment.setArguments(stepsBundle);
+
+            }
+
+        }
 
         ingredientsTitle_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,28 +184,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
             }
         });
 
-        //using bundle to communicate between fragments.
-        Bundle stepsBundle = new Bundle();
-        stepsBundle.putParcelableArrayList(getString(R.string.steps_key), stepsList);
-
-        Bundle ingredientsBundle = new Bundle();
-        ingredientsBundle.putParcelableArrayList(getString(R.string.ingredients_key), ingredientsList);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        DetailIngredientsFragment detailIngredientsFragment = new DetailIngredientsFragment();
-        DetailStepsFragment detailStepsFragment = new DetailStepsFragment();
-
-        fragmentManager.beginTransaction()
-                .add(R.id.detailIngredient_fragment, detailIngredientsFragment)
-                .commit();
-        detailIngredientsFragment.setArguments(ingredientsBundle);
-
-        fragmentManager.beginTransaction()
-                .add(R.id.detailSteps_fragment, detailStepsFragment)
-                .commit();
-        detailStepsFragment.setArguments(stepsBundle);
-
     }
 
     @Override
@@ -147,5 +193,25 @@ public class RecipeDetailActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(getString(R.string.steps_key), stepsList);
+        bundle.putInt(getString(R.string.step_position_key), position);
+        bundle.putString(getString(R.string.recipeName_key), recipeName);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (mTwoPane) {
+            DetailFlowFragment detailFlowFragment = new DetailFlowFragment();
+            detailFlowFragment.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.detail_flow_fragment, detailFlowFragment).commit();
+        } else {
+            Intent intent = new Intent(RecipeDetailActivity.this, RecipeDetailFlowActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT, bundle);
+            startActivity(intent);
+        }
+
+
     }
 }

@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.vasam.sweetspot.model.BakingRecipes;
 
 import java.util.ArrayList;
@@ -58,8 +60,10 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
         }
         String imagePath = mDataSource.get(position).getmRecipeImage();
         if (imagePath.isEmpty()) {
-            holder.mRecipeImage.setImageResource(thumbnailImage);
+            Glide.with(mContext).load(thumbnailImage).into(holder.mRecipeImage);
+            //holder.mRecipeImage.setImageResource(thumbnailImage);
         }
+        holder.mRecipeTitle.setText(mDataSource.get(position).getmRecipeName());
     }
 
     @Override
@@ -75,6 +79,7 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
     class RecipeCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.recipe_image)
         ImageView mRecipeImage;
+        @BindView(R.id.title_text_view)TextView mRecipeTitle;
 
         private RecipeCardHolder(View itemView) {
             super(itemView);
