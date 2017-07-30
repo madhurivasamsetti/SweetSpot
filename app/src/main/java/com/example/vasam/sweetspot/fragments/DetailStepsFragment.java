@@ -52,11 +52,9 @@ public class DetailStepsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            stepsList = savedInstanceState.getParcelableArrayList(getString(R.string.steps_key));
-        } else {
-            stepsList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
-        }
+
+        stepsList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
+
         View rootView = inflater.inflate(R.layout.fragment_detail_steps, container, false);
         ButterKnife.bind(this, rootView);
 
@@ -71,8 +69,4 @@ public class DetailStepsFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle currentState) {
-        currentState.putParcelableArrayList(getString(R.string.steps_key), stepsList);
-    }
 }

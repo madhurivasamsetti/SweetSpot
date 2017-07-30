@@ -32,12 +32,9 @@ public class DetailIngredientsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            ingredientsList = savedInstanceState.getParcelableArrayList(getString(R.string.ingredients_key));
-        } else {
+
             ingredientsList = getArguments().
                     getParcelableArrayList(getString(R.string.ingredients_key));
-        }
 
         View rootView = inflater.inflate(R.layout.fragment_detail_ingredients, container, false);
 
@@ -49,8 +46,4 @@ public class DetailIngredientsFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle currentState) {
-        currentState.putParcelableArrayList(getString(R.string.ingredients_key), ingredientsList);
-    }
 }

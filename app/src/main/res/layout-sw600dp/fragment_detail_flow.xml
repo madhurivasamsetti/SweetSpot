@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:id="@+id/video_shutter"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-            android:id="@+id/video_space"
-            android:layout_width="wrap_content"
-            android:layout_height="250dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/video_space"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
         <View
             android:id="@+id/shutter_view"
             android:layout_width="wrap_content"
-            android:layout_height="250dp"
+            android:layout_height="300dp"
             android:visibility="invisible"
             android:background="@android:color/black"/>
-    </RelativeLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/detail_instruction"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/video_shutter"
         android:layout_marginTop="5dp"
         android:padding="10dp"
         android:textAppearance="?android:textAppearanceMedium"
-        tools:text="description text view" />
+        tools:text="description text view"/>
+
+    <RelativeLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
     <ImageButton
         android:id="@+id/previous_step"
+        android:layout_alignParentStart="true"
         style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="40dp"
         android:contentDescription="@string/previous_buttonDescription"
         android:src="@drawable/previous_button"
         android:tint="@android:color/black" />
 
     <ImageButton
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
         android:id="@+id/next_step"
         style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="10dp"
         android:contentDescription="@string/next_buttonDescription"
         android:src="@drawable/next_button"
         android:tint="@android:color/black" />
-
+    </RelativeLayout>
     <TextView
         android:id="@+id/snackBar_position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:padding="5dp"
         tools:text="snack bar text" />
 
-</RelativeLayout>
+</LinearLayout>
