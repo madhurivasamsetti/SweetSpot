@@ -92,8 +92,8 @@ private ViewPager viewPager;
 
         DetailIngredientsFragment fragment  = new DetailIngredientsFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("steps", steps);
-        bundle.putInt("index", position);
+        bundle.putParcelableArrayList(getString(R.string.steps_key), steps);
+        bundle.putInt(getString(R.string.step_position_key), position);
         fragment.setArguments(bundle);
 
     }
