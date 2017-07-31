@@ -58,8 +58,8 @@ public class DetailFlowFragment extends Fragment implements ExoPlayer.EventListe
 //    @BindView(R.id.snackBar_position)
 //    TextView snackBarView;
 
-    private  int position;
-    private SimpleExoPlayer mExoPlayer;
+    private static int position;
+    private static SimpleExoPlayer mExoPlayer;
 
     @BindView(video_space)
     SimpleExoPlayerView mPlayerView;
@@ -70,6 +70,10 @@ public class DetailFlowFragment extends Fragment implements ExoPlayer.EventListe
     boolean isPlaying = false;
     private ArrayList<RecipeSteps> stepsArrayList;
     long exoPosition;
+    boolean _areLecturesLoaded = false;
+
+    String path;
+    private boolean isViewShown = false;
 
     public DetailFlowFragment() {
     }
@@ -78,15 +82,41 @@ public class DetailFlowFragment extends Fragment implements ExoPlayer.EventListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        stepsArrayList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
-        position = getArguments().getInt(getString(R.string.step_position_key));
-
+        if (!isViewShown) {
+            stepsArrayList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
+            position = getArguments().getInt(getString(R.string.step_position_key));
+        }
         View rootView = inflater.inflate(R.layout.fragment_example_detail_flow, container, false);
         ButterKnife.bind(this, rootView);
         instruction.setText(stepsArrayList.get(position).getmDescription());
 
-        String path = fetchVideoPath(position);
+//
+//        String path = fetchVideoPath(position);
+//        if (path == null) {
+//            Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
+//            mPlayerView.setVisibility(View.INVISIBLE);
+//            shutterView.setVisibility(View.VISIBLE);
+//        } else {
+//            initializeExoPlayer(Uri.parse(path));
+//        }
 
+        return rootView;
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getView() != null) {
+            isViewShown = true;
+            playVideo();
+        } else {
+            isViewShown = false;
+        }
+    }
+
+    public void playVideo() {
+        String path = fetchVideoPath(position);
         if (path == null) {
             Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
             mPlayerView.setVisibility(View.INVISIBLE);
@@ -94,86 +124,8 @@ public class DetailFlowFragment extends Fragment implements ExoPlayer.EventListe
         } else {
             initializeExoPlayer(Uri.parse(path));
         }
-
-//        if (instruction != null) {
-//            instruction.setText(stepsArrayList.get(position).getmDescription());
-//        }
-//        final int sizeOfList = stepsArrayList.size();
-
-//        if (next_step != null) {
-//            next_step.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (position < sizeOfList - 1) {
-//                        position++;
-//                        previous_step.setColorFilter(Color.BLACK);
-//                        next_step.setColorFilter(Color.BLACK);
-//                        instruction.setText(stepsArrayList.get(position).getmDescription());
-//                        String updatedPath = fetchVideoPath(position);
-//                        if (updatedPath == null) {
-//                            releasePlayer();
-//                            Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
-//                            mPlayerView.setVisibility(View.INVISIBLE);
-//                            shutterView.setVisibility(View.VISIBLE);
-//                        } else {
-//                            releasePlayer();
-//                            mPlayerView.setVisibility(View.VISIBLE);
-//                            shutterView.setVisibility(View.INVISIBLE);
-//                            initializeExoPlayer(Uri.parse(updatedPath));
-//                        }
-//                    }
-//                    if (position == sizeOfList - 1) {
-//                        next_step.setColorFilter(Color.GRAY);
-////                        Snackbar snackbar = Snackbar.make(snackBarView, "reached end of steps", Snackbar.LENGTH_LONG);
-////                        snackbar.show();
-////                    }
-////                }
-////
-////            });
-////        }
-//        if (previous_step != null) {
-//            previous_step.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (position > 0) {
-//                        position--;
-//                        previous_step.setColorFilter(Color.BLACK);
-//                        next_step.setColorFilter(Color.BLACK);
-//                        instruction.setText(stepsArrayList.get(position).getmDescription());
-//                        String updatedPath = fetchVideoPath(position);
-//                        if (updatedPath == null) {
-//                            releasePlayer();
-//                            Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
-//                            mPlayerView.setVisibility(View.INVISIBLE);
-//                            shutterView.setVisibility(View.VISIBLE);
-//                        } else {
-//                            releasePlayer();
-//                            mPlayerView.setVisibility(View.VISIBLE);
-//                            shutterView.setVisibility(View.INVISIBLE);
-//                            initializeExoPlayer(Uri.parse(updatedPath));
-//                        }
-//
-//                    }
-//                    if (position == 0) {
-//                        previous_step.setColorFilter(Color.GRAY);
-//                        Snackbar snackbar = Snackbar.make(snackBarView, "reached begining of steps", Snackbar.LENGTH_LONG);
-//                        snackbar.show();
-//                    }
-//                }
-//            });
-//        }
-        return rootView;
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle currentState) {
-//        currentState.putParcelableArrayList(getString(R.string.steps_key), stepsArrayList);
-//        currentState.putInt(getString(R.string.step_position_key), position);
-////        if(mExoPlayer!=null) {
-////            mExoPlayer.getCurrentPosition();
-////            currentState.putLong("exoposition", mExoPlayer.getCurrentPosition());
-////        }
-//    }
 
     public String fetchVideoPath(int position) {
         String videoPath = null;

@@ -34,15 +34,18 @@ public class DetailFlowSwipeAdapter extends FragmentStatePagerAdapter {
         Log.d("DetailAdapter.class", "position:" + position);
         DetailFlowFragment detailFlowFragment = new DetailFlowFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(mContext.getString(R.string.step_position_key), mPosition);
+        bundle.putInt(mContext.getString(R.string.step_position_key), position);
         bundle.putParcelableArrayList(mContext.getString(R.string.steps_key), steps);
         detailFlowFragment.setArguments(bundle);
 
         return detailFlowFragment;
     }
 
+
     @Override
     public int getCount() {
         return steps.size();
     }
+
+
 }

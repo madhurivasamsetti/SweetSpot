@@ -10,26 +10,18 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.vasam.sweetspot.fragments.DetailFlowSwipeAdapter;
-import com.example.vasam.sweetspot.fragments.DetailIngredientsFragment;
 import com.example.vasam.sweetspot.model.RecipeSteps;
 
 import java.util.ArrayList;
 
+//implements ViewPager.OnPageChangeListener
 public class RecipeDetailFlowActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 private ViewPager viewPager;
     DetailFlowSwipeAdapter swipeAdapter;
     ArrayList<RecipeSteps> steps;
+
     int position;
-//    @Override
-//    public void onBackPressed() {
-//        if(viewPager.getCurrentItem()==0) {
-//            super.onBackPressed();
-//        }
-//        else {
-//            // Otherwise, select the previous step.
-//            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-//        }
-//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,21 +41,14 @@ private ViewPager viewPager;
                 actionBar.setTitle(name);
             }
 
-//            Bundle content = new Bundle();
-//            content.putParcelableArrayList(getString(R.string.steps_key), steps);
-//            content.putInt(getString(R.string.step_position_key), position);
-
-//            DetailFlowFragment detailFlowFragment = new DetailFlowFragment();
-//            detailFlowFragment.setArguments(content);
-
-//            FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction().replace(R.id.detail_flow_fragment, detailFlowFragment).commit();
-            //,this,position,steps
             viewPager = (ViewPager) findViewById(R.id.pager);
             swipeAdapter = new DetailFlowSwipeAdapter(getSupportFragmentManager(),this,position,steps);
-            viewPager.setCurrentItem(position);
+
             viewPager.setAdapter(swipeAdapter);
-            viewPager.addOnPageChangeListener(this);
+            viewPager.setOffscreenPageLimit(1);
+            swipeAdapter.notifyDataSetChanged();
+            viewPager.setCurrentItem(position);
+            Log.d("RecipeDetailFlow.class","viewpagercurent: "+viewPager.getCurrentItem());
 
         }
 
@@ -81,20 +66,15 @@ private ViewPager viewPager;
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//        Log.d("MainActivity.class", "page scrolled:" + position);
 
     }
 
     @Override
     public void onPageSelected(int position) {
         Log.d("RecipeDetailFlow.class", "pageSelected:" + position);
-       //FragmentManager manager =  getSupportFragmentManager();
-
-        DetailIngredientsFragment fragment  = new DetailIngredientsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(getString(R.string.steps_key), steps);
-        bundle.putInt(getString(R.string.step_position_key), position);
-        fragment.setArguments(bundle);
+//
+//        DetailIngredientsFragment fragment  = new DetailIngredientsFragment();
+//        fragment.setUserVisibleHint(true);
 
     }
 
