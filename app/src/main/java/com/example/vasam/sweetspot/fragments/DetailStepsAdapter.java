@@ -1,10 +1,10 @@
 package com.example.vasam.sweetspot.fragments;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.vasam.sweetspot.R;
@@ -19,52 +19,55 @@ import butterknife.ButterKnife;
  * Created by vasam on 7/25/2017.
  */
 
-public class DetailStepsAdapter extends BaseAdapter {
+public class DetailStepsAdapter extends RecyclerView.Adapter<DetailStepsAdapter.StepsViewHolder> {
     private Context mContext;
     private ArrayList<RecipeSteps> mDataSource;
+    StepsListClickListener mStepsListClickListener;
 
-    public DetailStepsAdapter(Context mContext, ArrayList<RecipeSteps> mDataSource) {
+    public DetailStepsAdapter(Context mContext, ArrayList<RecipeSteps> mDataSource, StepsListClickListener mStepsListClickListener) {
         this.mContext = mContext;
         this.mDataSource = mDataSource;
+        this.mStepsListClickListener = mStepsListClickListener;
     }
 
     @Override
-    public int getCount() {
-        if (mDataSource == null)
-            return 0;
-        else return mDataSource.size();
+    public StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View root = LayoutInflater.from(mContext).inflate(R.layout.step_list_item_view, parent, false);
+        return new StepsViewHolder(root);
     }
 
     @Override
-    public Object getItem(int position) {
-        return null;
+    public void onBindViewHolder(StepsViewHolder holder, int position) {
+        holder.mShortDescription.setText(mDataSource.get(position).getmShortDescription());
     }
 
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public int getItemCount() {
+        if (mDataSource != null) {
+            return mDataSource.size();
+        } else return 0;
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag();
-        } else {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.step_list_item_view, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-        }
-        holder.mDescriptionTextView.setText(mDataSource.get(position).getmShortDescription());
-        return convertView;
+    public interface StepsListClickListener {
+        void onItemClick(int position);
     }
 
-    static class ViewHolder {
+
+    public class StepsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.step_list_text_view)
-        TextView mDescriptionTextView;
+        TextView mShortDescription;
 
-        public ViewHolder(View view) {
-            ButterKnife.bind(this, view);
+        public StepsViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            mStepsListClickListener.onItemClick(position);
         }
     }
 }

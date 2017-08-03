@@ -3,10 +3,11 @@ package com.example.vasam.sweetspot.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.example.vasam.sweetspot.R;
 import com.example.vasam.sweetspot.model.RecipeIngredients;
@@ -21,8 +22,8 @@ import butterknife.ButterKnife;
  */
 
 public class DetailIngredientsFragment extends Fragment {
-    @BindView(R.id.ingredients_list_view)
-    ListView listView;
+    @BindView(R.id.ingredients_recycler_view)
+    RecyclerView recyclerView;
     ArrayList<RecipeIngredients> ingredientsList;
 
     public DetailIngredientsFragment() {
@@ -33,16 +34,17 @@ public class DetailIngredientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-            ingredientsList = getArguments().
-                    getParcelableArrayList(getString(R.string.ingredients_key));
+        ingredientsList = getArguments().
+                getParcelableArrayList(getString(R.string.ingredients_key));
 
         View rootView = inflater.inflate(R.layout.fragment_detail_ingredients, container, false);
 
         ButterKnife.bind(this, rootView);
-
-        DetailIngredientsAdapter mAdapter = new DetailIngredientsAdapter(
-                getActivity().getApplicationContext(), ingredientsList);
-        listView.setAdapter(mAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        DetailIngredientsAdapter mAdapter = new DetailIngredientsAdapter(getContext(), ingredientsList);
+        recyclerView.setAdapter(mAdapter);
         return rootView;
     }
 

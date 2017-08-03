@@ -1,6 +1,8 @@
 package com.example.vasam.sweetspot.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
 /**
@@ -13,5 +15,13 @@ public class ApplicationUtils {
         float dpwidth = displayMetrics.widthPixels / displayMetrics.density;
         int scalingFactor = 180;
         return (int) (dpwidth / scalingFactor);
+    }
+
+    public static boolean checkInternetConnection(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
     }
 }

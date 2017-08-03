@@ -4,12 +4,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vasam.sweetspot.R;
 import com.example.vasam.sweetspot.model.RecipeSteps;
@@ -38,35 +38,26 @@ import static com.example.vasam.sweetspot.R.id.video_space;
  */
 
 public class DetailFlowFragment extends Fragment {
-//    @Nullable
-//    @BindView(R.id.next_step)
-//    ImageButton next_step;
-//
-//    @Nullable
-//    @BindView(R.id.previous_step)
-//    ImageButton previous_step;
 
     @Nullable
     @BindView(R.id.detail_instruction)
     TextView instruction;
 
-//    @Nullable
-//    @BindView(R.id.snackBar_position)
-//    TextView snackBarView;
-
-    private int position;
-    private SimpleExoPlayer mExoPlayer;
-
     @BindView(video_space)
     SimpleExoPlayerView mPlayerView;
 
     @BindView(R.id.shutter_view)
-    View shutterView;
-    boolean isVisible;
+    ImageView shutterView;
 
+    @BindView(R.id.video_shutter)
+    RelativeLayout video_shutter;
+
+    boolean isVisible;
+    long currentPosition;
+    private int position;
+    private SimpleExoPlayer mExoPlayer;
     private ArrayList<RecipeSteps> stepsArrayList;
 
-    private boolean isViewShown = false;
 
     public DetailFlowFragment() {
     }
@@ -75,20 +66,28 @@ public class DetailFlowFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+
+        View rootView = inflater.inflate(R.layout.fragment_detail_flow, container, false);
+        ButterKnife.bind(this, rootView);
+
         stepsArrayList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
         position = getArguments().getInt(getString(R.string.step_position_key));
-        View rootView = inflater.inflate(R.layout.fragment_example_detail_flow, container, false);
-        ButterKnife.bind(this, rootView);
-        instruction.setText(stepsArrayList.get(position).getmDescription());
-        playVideo();
-        if (isVisible) {
-            Log.d("DetailFlow.class", "visible in main");
-            if (mExoPlayer != null) {
-                mExoPlayer.setPlayWhenReady(true);
+        if (savedInstanceState != null) {
+          currentPosition = savedInstanceState.getLong("current");
+        }
+
+        if (position != -1) {
+            video_shutter.setVisibility(View.VISIBLE);
+            if (instruction != null) {
+                instruction.setVisibility(View.VISIBLE);
+                instruction.setText(stepsArrayList.get(position).getmDescription());
             }
+            playVideo();
         } else {
-            if (mExoPlayer != null) {
-                mExoPlayer.setPlayWhenReady(false);
+            video_shutter.setVisibility(View.INVISIBLE);
+            if (instruction != null) {
+                instruction.setVisibility(View.GONE);
             }
         }
 
@@ -100,12 +99,23 @@ public class DetailFlowFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         isVisible = isVisibleToUser;
+        if (isVisible) {
+            if (mExoPlayer != null) {
+                mExoPlayer.seekTo(currentPosition);
+                mExoPlayer.setPlayWhenReady(true);
+            }
+        } else {
+            if (mExoPlayer != null) {
+                mExoPlayer.seekTo(0);
+                mExoPlayer.setPlayWhenReady(false);
+            }
+        }
     }
 
     public void playVideo() {
         String path = fetchVideoPath(position);
         if (path == null) {
-            Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
             mPlayerView.setVisibility(View.INVISIBLE);
             shutterView.setVisibility(View.VISIBLE);
         } else {
@@ -126,25 +136,24 @@ public class DetailFlowFragment extends Fragment {
     }
 
     public void initializeExoPlayer(Uri videoUri) {
-
-        if (videoUri != null) {
+        if (mExoPlayer == null) {
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
             mPlayerView.setPlayer(mExoPlayer);
-//            mExoPlayer.addListener(this);
-
             String userAgent = Util.getUserAgent(getContext(), "DetailFlowFragment");
             MediaSource mediaSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(getContext()
                     , userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-//                mExoPlayer.setPlayWhenReady(true);
-
         }
-
-
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle currentState) {
+        if (mExoPlayer != null) {
+            currentState.putLong("current", mExoPlayer.getCurrentPosition());
+        }
+    }
 
     public void releasePlayer() {
         if (mExoPlayer != null) {
@@ -155,10 +164,11 @@ public class DetailFlowFragment extends Fragment {
 
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         releasePlayer();
+
     }
+
 }
