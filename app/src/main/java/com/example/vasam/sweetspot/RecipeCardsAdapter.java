@@ -29,9 +29,8 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
         void onItemClick(BakingRecipes recipe);
     }
 
-    public RecipeCardsAdapter(Context mContext, ArrayList<BakingRecipes> dataSource, RecipeCardClickListener clickListener) {
+    public RecipeCardsAdapter(Context mContext, RecipeCardClickListener clickListener) {
         this.mContext = mContext;
-        mDataSource = dataSource;
         mClickListener = clickListener;
     }
 
@@ -61,7 +60,6 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
         String imagePath = mDataSource.get(position).getmRecipeImage();
         if (imagePath.isEmpty()) {
             Glide.with(mContext).load(thumbnailImage).into(holder.mRecipeImage);
-            //holder.mRecipeImage.setImageResource(thumbnailImage);
         }
         holder.mRecipeTitle.setText(mDataSource.get(position).getmRecipeName());
     }
@@ -79,7 +77,8 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
     class RecipeCardHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.recipe_image)
         ImageView mRecipeImage;
-        @BindView(R.id.title_text_view)TextView mRecipeTitle;
+        @BindView(R.id.title_text_view)
+        TextView mRecipeTitle;
 
         private RecipeCardHolder(View itemView) {
             super(itemView);
@@ -93,5 +92,9 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
             BakingRecipes recipe = mDataSource.get(position);
             mClickListener.onItemClick(recipe);
         }
+    }
+
+    public void swapData(ArrayList<BakingRecipes> data) {
+        mDataSource = data;
     }
 }

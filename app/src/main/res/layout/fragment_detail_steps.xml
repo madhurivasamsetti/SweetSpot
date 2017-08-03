@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-   <ListView
-       android:id="@+id/steps_list_view"
+
+   <android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+       android:id="@+id/steps_recycler_view"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-      android:padding="10dp"
-       android:divider="@android:color/darker_gray"
-       android:dividerHeight="1sp"/>
-</android.support.v7.widget.CardView>
+       android:layout_height="match_parent"
+      android:padding="10dp" />

@@ -3,18 +3,27 @@ package com.example.vasam.sweetspot.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
  * Created by vasam on 7/25/2017.
  */
 
+
 public class BakingRecipes implements Parcelable {
+    @SerializedName("id")
     private int mRecipeId;
+    @SerializedName("name")
     private String mRecipeName;
+    @SerializedName("ingredients")
     private ArrayList<RecipeIngredients> mIngredients;
+    @SerializedName("steps")
     private ArrayList<RecipeSteps> mSteps;
+    @SerializedName("servings")
     private int mServings;
+    @SerializedName("image")
     private String mRecipeImage;
 
     public BakingRecipes(int mRecipeId, String mRecipeName, ArrayList<RecipeIngredients> mIngredients,
@@ -114,3 +123,4 @@ public class BakingRecipes implements Parcelable {
         dest.writeString(mRecipeImage);
     }
 }
+

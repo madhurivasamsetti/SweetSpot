@@ -3,16 +3,22 @@ package com.example.vasam.sweetspot.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by vasam on 7/25/2017.
  */
 
-public class RecipeSteps implements Parcelable{
-
+public class RecipeSteps implements Parcelable {
+    @SerializedName("id")
     private int mStepId;
+    @SerializedName("shortDescription")
     private String mShortDescription;
+    @SerializedName("description")
     private String mDescription;
+    @SerializedName("videoURL")
     private String mVideoURL;
+    @SerializedName("thumbnailURL")
     private String mThumbnailURL;
 
     public RecipeSteps(int mStepId, String mShortDescription, String mDescription, String mVideoURL, String mThumbnailURL) {
