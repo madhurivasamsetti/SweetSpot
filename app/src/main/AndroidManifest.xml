@@ -3,7 +3,7 @@
     package="com.example.vasam.sweetspot">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -38,7 +38,20 @@
         </activity>
         <activity android:name=".fragments.DetailIngredientsActivity" />
         <activity android:name=".fragments.DetailStepsActivity" />
-        <activity android:name=".fragments.ExampleActivity"></activity>
+        <activity android:name=".fragments.ExampleActivity" />
+
+        <receiver android:name=".SweetSpotWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sweet_spot_widget_info" />
+        </receiver>
+        <service
+            android:name=".widget.ListViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

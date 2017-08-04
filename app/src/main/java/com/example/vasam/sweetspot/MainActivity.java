@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements RecipeCardsAdapte
 
         if (!ApplicationUtils.checkInternetConnection(this)) {
             errorView.setVisibility(View.VISIBLE);
-            errorView.setText("NO INTERNET CONNECTION");
+            errorView.setText(getString(R.string.main_screen_emptyView_text));
             mRecyclerView.setVisibility(View.INVISIBLE);
         } else {
             call.enqueue(new Callback<ArrayList<BakingRecipes>>() {
