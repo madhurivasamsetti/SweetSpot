@@ -35,6 +35,7 @@
             android:padding="10dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:textColor="#d81b60"
+            android:textStyle="bold"
             android:textSize="22sp"
             tools:text="Brownies" />
 

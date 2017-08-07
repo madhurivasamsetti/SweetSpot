@@ -2,6 +2,7 @@ package com.example.vasam.sweetspot;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
                 break;
         }
         String imagePath = mDataSource.get(position).getmRecipeImage();
-        if (imagePath.isEmpty()) {
+        if (TextUtils.isEmpty(imagePath)) {
             Glide.with(mContext).load(thumbnailImage).into(holder.mRecipeImage);
         }
         holder.mRecipeTitle.setText(mDataSource.get(position).getmRecipeName());
@@ -70,7 +71,6 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
             return 0;
         } else
             return mDataSource.size();
-
     }
 
 
