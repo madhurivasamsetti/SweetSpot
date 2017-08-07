@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,11 +124,22 @@ public class DetailFlowFragment extends Fragment {
     }
 
     public String fetchVideoPath(int position) {
-        String videoPath = null;
+        String videoPath;
         if (stepsArrayList.get(position).getmVideoURL().isEmpty()) {
             if (stepsArrayList.get(position).getmThumbnailURL().isEmpty()) {
                 Glide.with(this).load(R.drawable.no_video).into(shutterView);
-            } else videoPath = stepsArrayList.get(position).getmThumbnailURL();
+                videoPath = null;
+            } else {
+                String thumbnailURL = stepsArrayList.get(position).getmThumbnailURL();
+                String extension = thumbnailURL.substring(thumbnailURL.lastIndexOf("."));
+                Log.d("DetailFlowFragment", "extension:" + extension);
+                if (extension.equals(".mp4")) {
+                    videoPath = thumbnailURL;
+                } else {
+                    Glide.with(this).load(thumbnailURL).into(shutterView);
+                    videoPath = null;
+                }
+            }
         } else videoPath = stepsArrayList.get(position).getmVideoURL();
         return videoPath;
     }

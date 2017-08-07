@@ -61,6 +61,9 @@ public class RecipeCardsAdapter extends RecyclerView.Adapter<RecipeCardsAdapter.
         String imagePath = mDataSource.get(position).getmRecipeImage();
         if (TextUtils.isEmpty(imagePath)) {
             Glide.with(mContext).load(thumbnailImage).into(holder.mRecipeImage);
+        }else
+        {
+            Glide.with(mContext).load(imagePath).into(holder.mRecipeImage);
         }
         holder.mRecipeTitle.setText(mDataSource.get(position).getmRecipeName());
     }
