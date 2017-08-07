@@ -12,10 +12,13 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="main_screen_emptyView_text">NO INTERNET CONNECTION</string>
+    <string name="main_screen_error_text">network problem</string>
     <string name="widget_emptyView_text">No recipe added</string>
     <string name="pref_icon_click_msg">Added to widget</string>
     <string name="pref_data_key" translatable="false">data</string>
     <string name="pref_recipeName_key" translatable="false">name</string>
     <string name="shutter_view">Shutter View</string>
+    <string name="navigate_text">Swipe Left or Right to Navigate</string>
     <string name="current_exoplayer_position" translatable="false">current</string>
+
 </resources>

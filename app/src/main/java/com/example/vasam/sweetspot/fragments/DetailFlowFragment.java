@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.vasam.sweetspot.R;
 import com.example.vasam.sweetspot.model.RecipeSteps;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -55,6 +56,7 @@ public class DetailFlowFragment extends Fragment {
     boolean isVisible;
     long currentPosition;
     private int position;
+
     private SimpleExoPlayer mExoPlayer;
     private ArrayList<RecipeSteps> stepsArrayList;
 
@@ -75,7 +77,7 @@ public class DetailFlowFragment extends Fragment {
         position = getArguments().getInt(getString(R.string.step_position_key));
 
         if (savedInstanceState != null) {
-          currentPosition = savedInstanceState.getLong(getString(R.string.current_exoplayer_position));
+            currentPosition = savedInstanceState.getLong(getString(R.string.current_exoplayer_position));
         }
 
         if (position != -1) {
@@ -88,10 +90,9 @@ public class DetailFlowFragment extends Fragment {
         } else {
             video_shutter.setVisibility(View.INVISIBLE);
             if (instruction != null) {
-                instruction.setVisibility(View.GONE);
+                instruction.setVisibility(View.INVISIBLE);
             }
         }
-
         return rootView;
     }
 
@@ -116,21 +117,18 @@ public class DetailFlowFragment extends Fragment {
         String path = fetchVideoPath(position);
         if (path == null) {
             mPlayerView.setVisibility(View.INVISIBLE);
-            shutterView.setVisibility(View.VISIBLE);
         } else {
             initializeExoPlayer(Uri.parse(path));
         }
     }
 
-
     public String fetchVideoPath(int position) {
         String videoPath = null;
         if (stepsArrayList.get(position).getmVideoURL().isEmpty()) {
             if (stepsArrayList.get(position).getmThumbnailURL().isEmpty()) {
-                //Toast.makeText(getContext(), "no video available in main list", Toast.LENGTH_SHORT).show();
+                Glide.with(this).load(R.drawable.no_video).into(shutterView);
             } else videoPath = stepsArrayList.get(position).getmThumbnailURL();
         } else videoPath = stepsArrayList.get(position).getmVideoURL();
-
         return videoPath;
     }
 
@@ -144,7 +142,7 @@ public class DetailFlowFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(getContext()
                     , userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
-        }else {
+        } else {
             mExoPlayer.seekTo(currentPosition);
         }
     }
@@ -152,7 +150,8 @@ public class DetailFlowFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle currentState) {
         if (mExoPlayer != null) {
-            currentState.putLong(getString(R.string.current_exoplayer_position), mExoPlayer.getCurrentPosition());
+            currentState.putLong(getString(R.string.current_exoplayer_position),
+                    mExoPlayer.getCurrentPosition());
         }
     }
 
@@ -162,7 +161,6 @@ public class DetailFlowFragment extends Fragment {
             mExoPlayer.release();
             mExoPlayer = null;
         }
-
     }
 
     @Override
@@ -170,4 +168,11 @@ public class DetailFlowFragment extends Fragment {
         super.onDestroyView();
         releasePlayer();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
+
 }

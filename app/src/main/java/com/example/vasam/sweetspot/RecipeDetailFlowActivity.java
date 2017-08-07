@@ -2,17 +2,21 @@ package com.example.vasam.sweetspot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.vasam.sweetspot.fragments.DetailFlowSwipeAdapter;
 import com.example.vasam.sweetspot.model.RecipeSteps;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class RecipeDetailFlowActivity extends AppCompatActivity {
@@ -20,7 +24,8 @@ public class RecipeDetailFlowActivity extends AppCompatActivity {
     DetailFlowSwipeAdapter swipeAdapter;
     ArrayList<RecipeSteps> steps;
 
-
+    @BindView(R.id.snackBar_navigate)
+    TextView snackBar;
     String recipeName;
     ViewPager viewPager;
 
@@ -28,7 +33,7 @@ public class RecipeDetailFlowActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail_flow);
-
+        ButterKnife.bind(this);
         if (savedInstanceState != null) {
             steps = savedInstanceState.getParcelableArrayList(getString(R.string.steps_key));
             recipeName = savedInstanceState.getString(getString(R.string.recipeName_key));
@@ -60,7 +65,7 @@ public class RecipeDetailFlowActivity extends AppCompatActivity {
         swipeAdapter.notifyDataSetChanged();
 
         viewPager.setCurrentItem(currentPosition);
-        Toast.makeText(this, "swipe left or right to navigate", Toast.LENGTH_SHORT).show();
+        Snackbar.make(snackBar,getString(R.string.navigate_text),Snackbar.LENGTH_LONG).show();
     }
 
     @Override

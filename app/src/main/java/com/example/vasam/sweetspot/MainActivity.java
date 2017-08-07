@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.design.widget.Snackbar;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements RecipeCardsAdapte
     RecyclerView mRecyclerView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-
+    @BindView(R.id.snackbar_text)
+    TextView snackBar;
     RecipeCardsAdapter mAdapter;
     ApiInterface apiInterface;
     ArrayList<BakingRecipes> recipesArrayList;
@@ -104,6 +106,10 @@ public class MainActivity extends AppCompatActivity implements RecipeCardsAdapte
                 @Override
                 public void onFailure(Call<ArrayList<BakingRecipes>> call, Throwable t) {
                     Log.d("MainActivity.class", "failed during call" + t.toString());
+
+                    Snackbar.make(snackBar, getString(R.string.main_screen_error_text)
+                            , Snackbar.LENGTH_LONG).show();
+
                 }
             });
         }
