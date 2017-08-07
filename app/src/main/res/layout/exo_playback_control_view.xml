@@ -36,9 +36,6 @@
             style="@style/ExoMediaButton.Pause"/>
 
 
-
-
-
     </LinearLayout>
 
     <LinearLayout
