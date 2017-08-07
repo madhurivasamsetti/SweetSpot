@@ -169,7 +169,5 @@ public class DetailFlowFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         releasePlayer();
-
     }
-
 }
