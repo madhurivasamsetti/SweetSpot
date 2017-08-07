@@ -24,4 +24,5 @@ public class ApplicationUtils {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
     }
+
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/ingredientName_widget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:maxLines="2"
+        android:textColor="@color/colorPrimary"
+        android:textAppearance="?android:textAppearanceMedium"
+        tools:text="Heavy Cream" />
+
+    <TextView
+        android:id="@+id/ingredientQuantity_widget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#e91e63"
+        tools:text="500" />
+
+    <TextView
+        android:id="@+id/ingredientMeasure_widget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:textColor="#e91e63"
+        android:layout_marginStart="5dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        tools:text="G" />
+</LinearLayout>

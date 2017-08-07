@@ -73,8 +73,9 @@ public class DetailFlowFragment extends Fragment {
 
         stepsArrayList = getArguments().getParcelableArrayList(getString(R.string.steps_key));
         position = getArguments().getInt(getString(R.string.step_position_key));
+
         if (savedInstanceState != null) {
-          currentPosition = savedInstanceState.getLong("current");
+          currentPosition = savedInstanceState.getLong(getString(R.string.current_exoplayer_position));
         }
 
         if (position != -1) {
@@ -106,7 +107,6 @@ public class DetailFlowFragment extends Fragment {
             }
         } else {
             if (mExoPlayer != null) {
-                mExoPlayer.seekTo(0);
                 mExoPlayer.setPlayWhenReady(false);
             }
         }
@@ -115,7 +115,6 @@ public class DetailFlowFragment extends Fragment {
     public void playVideo() {
         String path = fetchVideoPath(position);
         if (path == null) {
-            //Toast.makeText(getContext(), "no video available", Toast.LENGTH_SHORT).show();
             mPlayerView.setVisibility(View.INVISIBLE);
             shutterView.setVisibility(View.VISIBLE);
         } else {
@@ -145,13 +144,15 @@ public class DetailFlowFragment extends Fragment {
             MediaSource mediaSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(getContext()
                     , userAgent), new DefaultExtractorsFactory(), null, null);
             mExoPlayer.prepare(mediaSource);
+        }else {
+            mExoPlayer.seekTo(currentPosition);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle currentState) {
         if (mExoPlayer != null) {
-            currentState.putLong("current", mExoPlayer.getCurrentPosition());
+            currentState.putLong(getString(R.string.current_exoplayer_position), mExoPlayer.getCurrentPosition());
         }
     }
 
@@ -168,7 +169,5 @@ public class DetailFlowFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         releasePlayer();
-
     }
-
 }
